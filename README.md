@@ -1,27 +1,19 @@
-# Proyecto inicial - Curso de RXJS
-
-* Lo primero que debemos de hacer después de descargar el código es ejecutar el comando:
-
-```
-npm install
-```
-Ese comando descargará todos los módulos de node necesarios para ejecutar el proyecto.
+## RXJS
+A course on RXJS following online lessons from Udemy course taught by Fernando Herrera.
 
 
-* Cuando termine de instalar los node_modules, entonces podermos ejecutar el proyecto de con el siguiente comando
+# Basic installation
 
-```
-npm start
-```
-Para que eso funcione, recuerden que deben de ejecutar ese comando en el mismo directorio donde se encuentra el ```package.json```
-
-## Cambiar el puerto
-Por defecto, el puerto que configuré para este proyecto es el ```8081```, pero si necesitan cambiarlo porque pueda que ese puerto lo use su computadora, pueden cambiarlo abriendo el ```package.json``` >> scripts. Ahí verán la instrucción que lanza el servidor de desarrollo
-
-```
-"start": "webpack serve --mode development --open --port=8081"
-```
-
-Simplemente cambian el puerto por el que ustedes necesiten y listo. (lógicamente graban los cambios antes de ejecutar el ```npm start``` nuevamente)
+<ol>
+    <li>Once the code is downloaded, use the command <code>npm install</code> to have all necessary modules</li>
+    <li>After installing the node_modules, run <code>npm start</code> command. For this command to work, remember to run this command in the same directory where the <code>package.json</code> is located</li>
+</ol>
 
 
+# Change the port
+
+<p>Default port is <code>8081</code> for this project. If you need to change it, go to <code>package.json</code> scripts and check the instruction that launches development server </p>
+
+<code>"start": "webpack serve --mode development --open --port=8081"</code>
+
+<p>Just change the port for the one you need to use and that's all. Then, run <code>npm start</code> again.</p>
