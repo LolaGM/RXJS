@@ -1,6 +1,6 @@
 import { Observable, fromEvent } from "rxjs";
 
-import { debounceTime, map, mergeAll, mergeMap, pluck } from 'rxjs/operators';
+import { debounceTime, map, mergeAll, pluck } from 'rxjs/operators';
 
 import { ajax } from "rxjs/ajax";
 
@@ -55,19 +55,17 @@ const input$ = fromEvent<KeyboardEvent>(textInput, 'keyup'); //indicamos el tipa
 input$.pipe(
     debounceTime<KeyboardEvent>(500),  
     map<KeyboardEvent, string>( event => (event.target as HTMLInputElement).value),
-    mergeMap<string, Observable<GithubUsersResp>>( text => ajax.getJSON(
+    map<string, Observable<GithubUsersResp>>( text => ajax.getJSON(
         `https://api.github.com/search/users?q=${ text }`
     )),
+    mergeAll<Observable<GithubUsersResp>>(),
     map<GithubUsersResp, GithubUser[]>(item => item.items)
     
-)//.subscribe( mostrarUsuarios);
+).subscribe( mostrarUsuarios);
+//).subscribe( resp => mostrarUsuarios ( resp as GithubUser[]));
 
-const url = 'https://httpbin.org/delay/1?arg=';
 
-input$.pipe(
-    map( event => (event.target as HTMLInputElement).value),   
-    mergeMap( texto => ajax.getJSON( url + texto))
-).subscribe(console.log);
-
-//con mergeMap se realizan varias peticiones al servidor hasta que termine el valor introducido en el input
-
+//versión sin funcion de mostrar usuarios:
+//.subscribe(users => {
+    //console.log('users', users);
+//recibo un observable: si de este objeto quiero alguna propiedad en específica como la url
