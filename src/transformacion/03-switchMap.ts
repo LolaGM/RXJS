@@ -1,6 +1,6 @@
 import { Observable, fromEvent } from "rxjs";
 
-import { debounceTime, map, mergeAll, pluck } from 'rxjs/operators';
+import { debounceTime, map, mergeAll, mergeMap, pluck, switchMap } from 'rxjs/operators';
 
 import { ajax } from "rxjs/ajax";
 
@@ -55,17 +55,18 @@ const input$ = fromEvent<KeyboardEvent>(textInput, 'keyup'); //indicamos el tipa
 input$.pipe(
     debounceTime<KeyboardEvent>(500),  
     map<KeyboardEvent, string>( event => (event.target as HTMLInputElement).value),
-    map<string, Observable<GithubUsersResp>>( text => ajax.getJSON(
+    mergeMap<string, Observable<GithubUsersResp>>( text => ajax.getJSON(
         `https://api.github.com/search/users?q=${ text }`
     )),
-    mergeAll<Observable<GithubUsersResp>>(),
     map<GithubUsersResp, GithubUser[]>(item => item.items)
     
-).subscribe( mostrarUsuarios);
-//).subscribe( resp => mostrarUsuarios ( resp as GithubUser[]));
+)//.subscribe( mostrarUsuarios);
+
+const url = 'https://httpbin.org/delay/1?arg=';
+
+input$.pipe(
+    map( event => (event.target as HTMLInputElement).value),   
+    switchMap( texto => ajax.getJSON( url + texto))
+).subscribe(console.log);
 
 
-//versión sin funcion de mostrar usuarios:
-//.subscribe(users => {
-    //console.log('users', users);
-//recibo un observable: si de este objeto quiero alguna propiedad en específica como la url
