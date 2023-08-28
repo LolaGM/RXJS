@@ -47,10 +47,14 @@ import { zip, of } from 'rxjs';
     // ==================================================================
 
     // Realizar el llamado al URL para obtener a Luke Skywalker
-    getRequest(`Aquí va un URL`).pipe(
+    getRequest(`${SW_API}/people/1/`).pipe(
         // Realizar los operadores respectivos aquí
-        
+        // Primera respuesta:
+            //switchMap( resp => getRequest( resp.species[0] )) //switchMap con la respuesta y la petición AJAX para obtener la raza humana
 
+        //Respuesta definitiva concatenando ambos observables (peticiones). La respuesta viene en un arreglo pero en la actualidad está vacío
+       switchMap( resp => zip(of(resp), getRequest( resp.species[0]))),
+       map( ([personaje, especie]) => ({personaje, especie})) //desestructuramos el objeto
 
         
 
